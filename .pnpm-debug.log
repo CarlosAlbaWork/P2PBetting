@@ -1,0 +1,39 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 debug pnpm:package-manifest": {
+    "initial": {
+      "dependencies": {
+        "@chainlink/contracts": "^0.8.0"
+      }
+    },
+    "prefix": "/home/carlos"
+  },
+  "2 debug pnpm:context": {
+    "currentLockfileExists": true,
+    "storeDir": "/home/carlos/.pnpm-store/v3",
+    "virtualStoreDir": "/home/carlos/node_modules/.pnpm"
+  },
+  "3 debug pnpm:stage": {
+    "prefix": "/home/carlos",
+    "stage": "resolution_started"
+  },
+  "4 warn pnpm": {
+    "message": "Moving @chainlink/contracts that was installed by a different package manager to \"node_modules/.ignored",
+    "prefix": "/home/carlos"
+  },
+  "5 error pnpm": {
+    "errno": -39,
+    "code": "ENOTEMPTY",
+    "syscall": "rename",
+    "path": "/home/carlos/node_modules/@chainlink/contracts",
+    "dest": "/home/carlos/node_modules/.ignored/@chainlink/contracts",
+    "err": {
+      "name": "Error",
+      "message": "ENOTEMPTY: directory not empty, rename '/home/carlos/node_modules/@chainlink/contracts' -> '/home/carlos/node_modules/.ignored/@chainlink/contracts'",
+      "code": "ENOTEMPTY",
+      "stack": "Error: ENOTEMPTY: directory not empty, rename '/home/carlos/node_modules/@chainlink/contracts' -> '/home/carlos/node_modules/.ignored/@chainlink/contracts'"
+    }
+  }
+}
