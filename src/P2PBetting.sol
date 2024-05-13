@@ -29,6 +29,7 @@ contract P2PBetting is Ownable, AutomationCompatibleInterface, FunctionsClient {
     error P2PBetting__BetIsFullOrNonexistent();
     error P2PBetting__CantEnterBetNow();
     error P2PBetting__UserNotInBet();
+    error P2PBetting__CantCallIfNotOwner();
     error P2PBetting__AlreadyRetrievedOrBetNonexistent();
     error P2PBetting__OnlyCalledIfTipsterLost();
     error P2PBetting__UnexpectedRequestId();
@@ -67,6 +68,7 @@ contract P2PBetting is Ownable, AutomationCompatibleInterface, FunctionsClient {
     uint32 gasLimit = 300000;
     address router;
     uint64 subscriptionId;
+
     string sourceGetResults = "const date = args[0];"
         "let teams = args[1];"
         "if (!secrets.soccerApiKey) {"
@@ -87,11 +89,10 @@ contract P2PBetting is Ownable, AutomationCompatibleInterface, FunctionsClient {
         "if (!match) {"
         "  throw new Error('Match not found for given arguments');"
         "}"
-        "if (match.Winner === 'Scrambled') {"
-        "  throw new Error('Data is scrambled, use production API Key');"
-        "}"
-        "let result = [match.AwayTeamScore, match.HomeTeamScore];" //Aquí habría que hacer algo tipo esto
-        "return Functions.encodeString(result);"; //Aquí no sé si el return es así
+        "let encodedData = [];" 
+        "encodedData.push(encodeUint256(match.HomeTeamScore));"
+        "encodedData.push(encodeUint256(match.AwayTeamScore));"
+        "return Functions.encodeString(JSON.stringify(encodedData))"; 
     string sourceGetMatchesToInsert =
         "const date = args[0];"
 
@@ -130,6 +131,9 @@ contract P2PBetting is Ownable, AutomationCompatibleInterface, FunctionsClient {
     uint256 constant DECIMALS = 1000; //3 decimals
     uint256 private s_fee; // 2000 = 2%
     uint256 private feesCollected;
+    uint256 private intervalForAutomation = 24 hours;
+    uint256 private lastTimestamp;
+    uint256 private timestampToGetMatches;
     uint256 private numberOfBetsDone;
     uint256 private numberOfMatchesDone;
 
@@ -358,24 +362,7 @@ contract P2PBetting is Ownable, AutomationCompatibleInterface, FunctionsClient {
         payable(betSelected.tipster).transfer(amountToTransferBack);
     }
 
-    ///////////////////////////////////////////
-    ////// CHAINLINK AUTOMATION ///////////////
-    ///////////////////////////////////////////
-
-    function checkUpkeep(
-        bytes calldata
-    )
-        external
-        view
-        override
-        returns (bool upkeepNeeded, bytes memory performData)
-    {
-        //Checkea si se ha de ejecutar la función.
-    }
-
-    function performUpkeep(bytes calldata performData) external {
-        //Ejecuta la función, tiene los mismos checks que CheckUpkeep
-    }
+    
 
     ///////////////////////////////////////////
     ////// CHAINLINK FUNCTIONS ///////////////
@@ -408,9 +395,17 @@ contract P2PBetting is Ownable, AutomationCompatibleInterface, FunctionsClient {
 }
      */
 
-    function getMatchesByDate(uint256 timestamp_) external onlyOwner returns (bytes32) {
+    function getMatchesByDate(uint256 timestamp_) public returns (bytes32) {
+        uint256 auxTimestamp = timestampToGetMatches;
+        if ((block.timestamp - lastTimestamp) < intervalForAutomation) {
+            if (msg.sender != owner()) {
+                revert P2PBetting__CantCallIfNotOwner();
+            }
+            auxTimestamp = timestamp_;
+        }
+
         FunctionsRequest.Request memory req;
-        (uint256 year, uint256 month, uint256 day) = BokkyPooBahsDateTimeLibrary.timestampToDate(timestamp_);
+        (uint256 year, uint256 month, uint256 day) = BokkyPooBahsDateTimeLibrary.timestampToDate(auxTimestamp);
         string memory date = string(abi.encodePacked(year, "-", month, "-", day));
         
         string[] memory args = new string[](1);
@@ -505,6 +500,33 @@ contract P2PBetting is Ownable, AutomationCompatibleInterface, FunctionsClient {
 
         return string(strBytes);
     }
+
+    ///////////////////////////////////////////
+    ////// CHAINLINK AUTOMATION ///////////////
+    ///////////////////////////////////////////
+
+    function checkUpkeep(
+        bytes calldata
+    )
+        external
+        view
+        override
+        returns (bool upkeepNeeded, bytes memory /*performData **/)
+    {
+        //Checkea si se ha de ejecutar la función.
+        if ((block.timestamp - lastTimestamp) >= intervalForAutomation) {
+            upkeepNeeded = true;
+        }
+    }
+
+    function performUpkeep(bytes calldata /*performData **/) external {
+        if ((block.timestamp - lastTimestamp) >= intervalForAutomation) {
+            getMatchesByDate(timestampToGetMatches);
+            lastTimestamp = block.timestamp;
+            timestampToGetMatches += intervalForAutomation;
+            
+        }
+    }
     
 
     ///////////////////////////////////////////
@@ -524,6 +546,13 @@ contract P2PBetting is Ownable, AutomationCompatibleInterface, FunctionsClient {
     function setUsdOracle(address newOracle) external onlyOwner {
         USD_ETH_dataFeed = AggregatorV3Interface(newOracle);
         emit P2PBetting__NewOracleSet(newOracle);
+    }
+
+    function setTimestampToGetMatches(uint256 newTimestamp) external onlyOwner {
+        timestampToGetMatches = newTimestamp;
+    }
+    function setIntervalForAutomation(uint256 newInterval) external onlyOwner {
+        intervalForAutomation = newInterval;
     }
 
     ///////////////////////////////////////////
