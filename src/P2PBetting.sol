@@ -69,25 +69,20 @@ contract P2PBetting is Ownable, AutomationCompatibleInterface, FunctionsClient {
     address router;
     uint64 subscriptionId;
 
-    string sourceGetResults = "const date = args[0];"
-        "let teams = args[1];"
-        "if (!secrets.soccerApiKey) {"
-        '  throw Error("Sportsdata.io API KEY is required");'
-        "}"
+    string sourceGetResults = 
+        "const gameId = args[0];"
         "const config = {"
-        "  url: `https://api.sportsdata.io/v3/soccer/scores/json/GamesByDate/${date}?key=${secrets.soccerApiKey}`"
+        "  url: `https://api.sportsdata.io/v3/nba/stats/json/BoxScore/${gameId}?key=06b9feb762534274946d286934ff0235`"
         "};"
         "const response = await Functions.makeHttpRequest(config);"
         "const allMatches = response.data;"
         "const match = allMatches.find(match => {"
-        "  const playingTeams = `${match.AwayTeamKey}/${match.HomeTeamKey}`.toUpperCase();"
-        "  const playingTeamsReversed = `${match.HomeTeamKey}/${match.AwayTeamKey}`.toUpperCase();"
-        "  if (teams.toUpperCase() === playingTeams || teams.toUpperCase() === playingTeamsReversed) {"
+        "  if (match.GameEndDateTime != null && match.GameID === gameId) {"
         "    return true;"
         "  }"
         "});"
         "if (!match) {"
-        "  throw new Error('Match not found for given arguments');"
+        "  throw new Error('Did not end or nonexistent');"
         "}"
         "let encodedData = [];" 
         "encodedData.push(encodeUint256(match.HomeTeamScore));"
@@ -95,12 +90,8 @@ contract P2PBetting is Ownable, AutomationCompatibleInterface, FunctionsClient {
         "return Functions.encodeString(JSON.stringify(encodedData))"; 
     string sourceGetMatchesToInsert =
         "const date = args[0];"
-
-        "if (!secrets.soccerApiKey) {"
-        '  throw Error("Sportsdata.io API KEY is required");'
-        "}"
         "const config = {"
-        "  url: `https://api.sportsdata.io/v3/soccer/scores/json/GamesByDate/${date}?key=${secrets.soccerApiKey}`"
+        "  url: `https://api.sportsdata.io/v3/nba/scores/json/GamesByDate/${date}?key=06b9feb762534274946d286934ff0235`"
         "};"
         "const response = await Functions.makeHttpRequest(config);"
         "const allMatches = response.data;"
@@ -112,7 +103,7 @@ contract P2PBetting is Ownable, AutomationCompatibleInterface, FunctionsClient {
             "let timestampInSeconds = Math.floor(timestamp / 1000);"
         "    // Codificar GameID como uint256 (32 bytes)"
         "    encodedData.push(encodeUint256(partido.GameID));"
-        "    // Codificar DateTime como string (32 bytes)"
+        "    // Codificar DateTime como uint256 (32 bytes)"
         "    encodedData.push(encodeUint256(timestampInSeconds));"
         "    // Codificar HomeTeam como string (32 bytes)"
         "    encodedData.push(encodeString(partido.HomeTeam));"
@@ -428,9 +419,6 @@ contract P2PBetting is Ownable, AutomationCompatibleInterface, FunctionsClient {
         bytes memory response,
         bytes memory err
     ) internal override {
-        if (s_lastRequestId != requestId) {
-            revert P2PBetting__UnexpectedRequestId();
-        }
         s_lastResponse = response;
         s_lastError = err;
         uint256 offset = 0;
