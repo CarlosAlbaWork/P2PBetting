@@ -23,6 +23,7 @@ contract P2PBetting is Ownable, AutomationCompatibleInterface, FunctionsClient {
     error P2PBetting__NumberOfChallengersCantBeZero();
     error P2PBetting__MaxPriceCantBeZero();
     error P2PBetting__MatchDoesntExist();
+    error P2PBetting__MatchDidNotEnd();
     error P2PBetting__OddsMustBeHigherThanOne();
     error P2PBetting__NotEnoughEthSent();
     error P2PBetting__TooMuchEthSent();
@@ -132,8 +133,8 @@ contract P2PBetting is Ownable, AutomationCompatibleInterface, FunctionsClient {
     mapping(uint256 betId => Bet bet) s_Bets;
     mapping(uint256 matchId => Match) s_Matches;
     mapping(uint256 timestampTick => uint256[] matchId) s_MatchesByDate;
-    uint256[] auxMatchesByDate;
-    uint256[] failedToClose; //Tiene los ids de los partidos que no se cerraron llamando a la API
+    uint256[] private auxMatchesByDate;
+    uint256[] private failedToClose; //Tiene los ids de los partidos que no se cerraron llamando a la API
 
     struct Match {
         uint256 matchId;
@@ -166,7 +167,7 @@ contract P2PBetting is Ownable, AutomationCompatibleInterface, FunctionsClient {
         bool tipsterWon;
         bool ended; //cuando el partido se acaba
         uint256 startMatchTimestamp;
-        string betData;
+        uint256[] betData;
     }
 
     //eL ROUTER  y el DONID se saca de Chainlink , dependiendo la red en la que hagamos deploy
@@ -281,6 +282,56 @@ contract P2PBetting is Ownable, AutomationCompatibleInterface, FunctionsClient {
     //cierra la apuesta, decidiendo si el ganador es el challenger o el tipster
 
     //Ahora no tiene nada, solo está así para testear , cambiará en el futuro
+
+
+    function _endBetsUsingMatchId(uint256 matchId) internal {
+        Match memory matchOfBets = s_Matches[matchId];
+        if (!matchOfBets.ended) {
+            revert P2PBetting__MatchDidNotEnd();
+        }
+        uint256[] memory arrayBets = matchOfBets.betsOfMatch;
+        for (uint i; i < arrayBets.length; i++) {
+            Bet memory betToClose = s_Bets[arrayBets[i]];
+            if (betToClose.betData.length >= 2 ) {
+                if (betToClose.betData[0] == 0 && betToClose.betData[1] < 3) {
+                    if (betToClose.betData[1] == 0 && matchOfBets.pointsHome <= matchOfBets.pointsAway || betToClose.betData[1] == 1 && matchOfBets.pointsHome >= matchOfBets.pointsAway || betToClose.betData[2] == 1 && matchOfBets.pointsHome != matchOfBets.pointsAway ) {
+                        betToClose.tipsterWon = true;
+                    }
+                    betToClose.ended = true;
+                } else if (betToClose.betData.length >= 4 && betToClose.betData[0] == 1 && betToClose.betData[1] < 5 && betToClose.betData[2] < 3) {
+                    if (betToClose.betData[1] == 0 && ((betToClose.betData[2] == 0 && matchOfBets.pointsHome <= betToClose.betData[3]) || (betToClose.betData[2] == 1 && matchOfBets.pointsHome >= betToClose.betData[3]) || (betToClose.betData[2] == 2 && matchOfBets.pointsHome != betToClose.betData[3])) ) {
+                        betToClose.tipsterWon = true;
+                    }
+                    else if (betToClose.betData[1] == 1 && ((betToClose.betData[2] == 0 && matchOfBets.pointsAway <= betToClose.betData[3]) || (betToClose.betData[2] == 1 && matchOfBets.pointsAway >= betToClose.betData[3]) || (betToClose.betData[2] == 2 && matchOfBets.pointsAway != betToClose.betData[3]) )) {
+                        betToClose.tipsterWon = true;
+                    }
+                    else if (betToClose.betData[1] == 2 && ((betToClose.betData[2] == 0 && matchOfBets.pointsAway + matchOfBets.pointsHome <= betToClose.betData[3]) || (betToClose.betData[2] == 1 && matchOfBets.pointsAway + matchOfBets.pointsHome >= betToClose.betData[3]) || (betToClose.betData[2] == 2 && matchOfBets.pointsAway + matchOfBets.pointsHome != betToClose.betData[3]) )) {
+                        betToClose.tipsterWon = true;
+                    }
+                    else if (betToClose.betData[1] == 3 ) {
+                        uint256 difference;
+                        if (int256(matchOfBets.pointsAway) - int256(matchOfBets.pointsHome) < 0) {
+                            difference = matchOfBets.pointsHome - matchOfBets.pointsAway;
+                        }else {
+                            difference =matchOfBets.pointsAway - matchOfBets.pointsHome ;
+                        }
+                        if ((betToClose.betData[2] == 0 && difference <= betToClose.betData[3]) || (betToClose.betData[2] == 1 && difference >= betToClose.betData[3]) || (betToClose.betData[2] == 2 && difference != betToClose.betData[3])) {
+                            betToClose.tipsterWon = true;
+                        }
+                    }
+                    else if (betToClose.betData[1] == 4 && ((betToClose.betData[2] == 0 && (matchOfBets.pointsAway <= betToClose.betData[3] || matchOfBets.pointsHome <= betToClose.betData[3])) || (betToClose.betData[2] == 1 && (matchOfBets.pointsAway >= betToClose.betData[3] || matchOfBets.pointsHome >= betToClose.betData[3])) || (betToClose.betData[2] == 2 && (matchOfBets.pointsAway != betToClose.betData[3] || matchOfBets.pointsHome != betToClose.betData[3])) )) {
+                        betToClose.tipsterWon = true;
+                    }
+                    betToClose.ended = true;
+                }
+                
+
+            }
+            else  { // no se puede cerrar
+                    failedToClose.push(matchId);
+            }
+        }
+    }
 
     function endBet(uint256 betId_, bool tipsterWon) public {
         //Automation
@@ -442,6 +493,7 @@ contract P2PBetting is Ownable, AutomationCompatibleInterface, FunctionsClient {
             auxMatch.pointsAway = awayPoints;
             auxMatch.ended = true;
             s_Matches[GameID] = auxMatch;
+            _endBetsUsingMatchId(GameID);
         }
         else {
             while (offset < response.length) {
