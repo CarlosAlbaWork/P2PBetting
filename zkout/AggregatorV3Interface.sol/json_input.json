@@ -2,7 +2,7 @@
   "language": "Solidity",
   "sources": {
     "lib/chainlink-brownie-contracts/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol": {
-      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ninterface AggregatorV3Interface {\n  function decimals() external view returns (uint8);\n\n  function description() external view returns (string memory);\n\n  function version() external view returns (uint256);\n\n  function getRoundData(uint80 _roundId)\n    external\n    view\n    returns (\n      uint80 roundId,\n      int256 answer,\n      uint256 startedAt,\n      uint256 updatedAt,\n      uint80 answeredInRound\n    );\n\n  function latestRoundData()\n    external\n    view\n    returns (\n      uint80 roundId,\n      int256 answer,\n      uint256 startedAt,\n      uint256 updatedAt,\n      uint80 answeredInRound\n    );\n}\n"
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ninterface AggregatorV3Interface {\n  function decimals() external view returns (uint8);\n\n  function description() external view returns (string memory);\n\n  function version() external view returns (uint256);\n\n  function getRoundData(\n    uint80 _roundId\n  ) external view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);\n\n  function latestRoundData()\n    external\n    view\n    returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);\n}\n"
     }
   },
   "settings": {
@@ -10,7 +10,8 @@
       "@chainlink/contracts/=lib/chainlink-brownie-contracts/contracts/",
       "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
       "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
-      "chainlink-brownie-contracts/=lib/chainlink-brownie-contracts/",
+      "BokkyPooBahsDateTimeLibrary/=lib/BokkyPooBahsDateTimeLibrary/",
+      "chainlink-brownie-contracts/=lib/chainlink-brownie-contracts/contracts/src/v0.6/vendor/@arbitrum/nitro-contracts/src/",
       "ds-test/=lib/openzeppelin-contracts/lib/forge-std/lib/ds-test/src/",
       "erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/",
       "forge-std/=lib/forge-std/src/",

@@ -1,0 +1,43 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "lib/chainlink-brownie-contracts/contracts/src/v0.8/AutomationBase.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract AutomationBase {\n  error OnlySimulatedBackend();\n\n  /**\n   * @notice method that allows it to be simulated via eth_call by checking that\n   * the sender is the zero address.\n   */\n  function preventExecution() internal view {\n    if (tx.origin != address(0)) {\n      revert OnlySimulatedBackend();\n    }\n  }\n\n  /**\n   * @notice modifier that allows it to be simulated via eth_call by checking\n   * that the sender is the zero address.\n   */\n  modifier cannotExecute() {\n    preventExecution();\n    _;\n  }\n}\n"
+    }
+  },
+  "settings": {
+    "remappings": [
+      "@chainlink/contracts/=lib/chainlink-brownie-contracts/contracts/",
+      "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+      "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+      "BokkyPooBahsDateTimeLibrary/=lib/BokkyPooBahsDateTimeLibrary/",
+      "chainlink-brownie-contracts/=lib/chainlink-brownie-contracts/contracts/src/v0.6/vendor/@arbitrum/nitro-contracts/src/",
+      "ds-test/=lib/openzeppelin-contracts/lib/forge-std/lib/ds-test/src/",
+      "erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/",
+      "forge-std/=lib/forge-std/src/",
+      "openzeppelin-contracts/=lib/openzeppelin-contracts/"
+    ],
+    "optimizer": {
+      "enabled": true,
+      "mode": "3",
+      "details": null,
+      "fallbackToOptimizingForSize": false,
+      "disableSystemRequestMemoization": true
+    },
+    "outputSelection": {
+      "*": {
+        "": [
+          "metadata"
+        ],
+        "*": [
+          "abi",
+          "evm.methodIdentifiers"
+        ]
+      }
+    },
+    "libraries": {},
+    "isSystem": false,
+    "forceEvmla": false,
+    "areLibrariesMissing": false
+  }
+}

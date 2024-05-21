@@ -1,0 +1,388 @@
+{
+  "contracts": {
+    "lib/chainlink-brownie-contracts/contracts/src/v0.8/AutomationBase.sol": {
+      "AutomationBase": {
+        "abi": [
+          {
+            "inputs": [],
+            "name": "OnlySimulatedBackend",
+            "type": "error"
+          }
+        ],
+        "metadata": {
+          "optimizer_settings": {
+            "is_debug_logging_enabled": false,
+            "is_fallback_to_size_enabled": false,
+            "is_system_request_memoization_disabled": true,
+            "is_verify_each_enabled": false,
+            "level_back_end": "Aggressive",
+            "level_middle_end": "Aggressive",
+            "level_middle_end_size": "Zero"
+          },
+          "solc_metadata": "{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"OnlySimulatedBackend\",\"type\":\"error\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/chainlink-brownie-contracts/contracts/src/v0.8/AutomationBase.sol\":\"AutomationBase\"},\"evmVersion\":\"shanghai\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"details\":{\"constantOptimizer\":false,\"cse\":false,\"deduplicate\":false,\"inliner\":false,\"jumpdestRemover\":false,\"orderLiterals\":false,\"peephole\":false,\"yul\":true,\"yulDetails\":{\"optimizerSteps\":\"dhfoDgvulfnTUtnIf[xa[r]EscLMcCTUtTOntnfDIulLculVcul [j]Tpeulxa[rul]xa[r]cLgvifCTUca[r]LSsTFOtfDnca[r]Iulc]jmul[jul] VcTOcul jmul:fDnTOc\",\"stackAllocation\":true}},\"runs\":200},\"remappings\":[\":@chainlink/contracts/=lib/chainlink-brownie-contracts/contracts/\",\":@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/\",\":BokkyPooBahsDateTimeLibrary/=lib/BokkyPooBahsDateTimeLibrary/\",\":chainlink-brownie-contracts/=lib/chainlink-brownie-contracts/contracts/src/v0.6/vendor/@arbitrum/nitro-contracts/src/\",\":ds-test/=lib/openzeppelin-contracts/lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/\"]},\"sources\":{\"lib/chainlink-brownie-contracts/contracts/src/v0.8/AutomationBase.sol\":{\"keccak256\":\"0x5d354afa1a97dffe66094397cdcbb0c14713cf3d609d88fd8f9891010e9a351a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3613ee132e1f05b3e23955db6a849966487fab8ea33e9bb70d6f038fc48c0608\",\"dweb:/ipfs/QmRgdumWFMX35vSrZpCCvXDTvRBVXRkexnxoZqqfnGisnZ\"]}},\"version\":1}",
+          "solc_version": "0.8.20",
+          "solc_zkvm_edition": null,
+          "zk_version": "1.4.0"
+        },
+        "evm": {
+          "legacyAssembly": null,
+          "assembly": "\t.text\n\t.file\t\"AutomationBase.sol:AutomationBase\"\n\t.globl\t__entry\n__entry:\n.func_begin0:\n\tand!\t1, r2, r1\n\tjump.eq\t@.BB0_2\n\tadd\t128, r0, r1\n\tst.1\t64, r1\n\tcontext.get_context_u128\tr1\n\tsub!\tr1, r0, r1\n\tjump.ne\t@.BB0_2\n\tadd\t32, r0, r1\n\tst.2\t256, r1\n\tst.2\t288, r0\n\tadd\t@CPI0_0[0], r0, r1\n\tret.ok.to_label\tr1, @DEFAULT_FAR_RETURN\n.BB0_2:\n\tadd\tr0, r0, r1\n\tret.revert.to_label\tr1, @DEFAULT_FAR_REVERT\n.func_end0:\n\n\t.note.GNU-stack\n\t.rodata\nCPI0_0:\n\t.cell 53919893334301279589334030174039261352344891250716429051063678533632\n",
+          "bytecode": {
+            "object": "00000001012001900000000c0000613d0000008001000039000000400010043f0000000001000416000000000101004b0000000c0000c13d00000020010000390000010000100443000001200000044300000005010000410000000f0001042e000000000100001900000010000104300000000e000004320000000f0001042e0000001000010430000000000000000000000000000000000000000000000000000000020000000000000000000000000000004000000100000000000000000075f58c01bb119ac713ecb877cccd0f7a36e403f957e8f6f7abf21abb7e38f829"
+          },
+          "methodIdentifiers": {}
+        },
+        "irOptimized": "/// @use-src 0:\"lib/chainlink-brownie-contracts/contracts/src/v0.8/AutomationBase.sol\"\nobject \"AutomationBase_29\" {\n    code {\n        {\n            /// @src 0:57:572  \"contract AutomationBase {...\"\n            let _1 := memoryguard(0x80)\n            mstore(64, _1)\n            if callvalue() { revert(0, 0) }\n            let _2 := datasize(\"AutomationBase_29_deployed\")\n            codecopy(_1, dataoffset(\"AutomationBase_29_deployed\"), _2)\n            return(_1, _2)\n        }\n    }\n    /// @use-src 0:\"lib/chainlink-brownie-contracts/contracts/src/v0.8/AutomationBase.sol\"\n    object \"AutomationBase_29_deployed\" {\n        code {\n            {\n                /// @src 0:57:572  \"contract AutomationBase {...\"\n                revert(0, 0)\n            }\n        }\n        data \".metadata\" hex\"a2646970667358221220c46a4c67b7f99355b63f5fab0127724ba25b0ec654c2a203ae82ce032073c60664736f6c63430008140033\"\n    }\n}\n",
+        "hash": "01000007ae9213cadb525a73999dbc108cc026c219ee96c4a665f4375d96fe36",
+        "factoryDependencies": {}
+      }
+    }
+  },
+  "sources": {
+    "lib/chainlink-brownie-contracts/contracts/src/v0.8/AutomationBase.sol": {
+      "id": 0,
+      "ast": {
+        "absolutePath": "lib/chainlink-brownie-contracts/contracts/src/v0.8/AutomationBase.sol",
+        "exportedSymbols": {
+          "AutomationBase": [
+            29
+          ]
+        },
+        "id": 30,
+        "license": "MIT",
+        "nodeType": "SourceUnit",
+        "nodes": [
+          {
+            "id": 1,
+            "literals": [
+              "solidity",
+              "^",
+              "0.8",
+              ".0"
+            ],
+            "nodeType": "PragmaDirective",
+            "src": "32:23:0"
+          },
+          {
+            "abstract": false,
+            "baseContracts": [],
+            "canonicalName": "AutomationBase",
+            "contractDependencies": [],
+            "contractKind": "contract",
+            "fullyImplemented": true,
+            "id": 29,
+            "linearizedBaseContracts": [
+              29
+            ],
+            "name": "AutomationBase",
+            "nameLocation": "66:14:0",
+            "nodeType": "ContractDefinition",
+            "nodes": [
+              {
+                "errorSelector": "b60ac5db",
+                "id": 3,
+                "name": "OnlySimulatedBackend",
+                "nameLocation": "91:20:0",
+                "nodeType": "ErrorDefinition",
+                "parameters": {
+                  "id": 2,
+                  "nodeType": "ParameterList",
+                  "parameters": [],
+                  "src": "111:2:0"
+                },
+                "src": "85:29:0"
+              },
+              {
+                "body": {
+                  "id": 19,
+                  "nodeType": "Block",
+                  "src": "290:83:0",
+                  "statements": [
+                    {
+                      "condition": {
+                        "commonType": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        "id": 13,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "expression": {
+                            "id": 7,
+                            "name": "tx",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": -26,
+                            "src": "300:2:0",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_magic_transaction",
+                              "typeString": "tx"
+                            }
+                          },
+                          "id": 8,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberLocation": "303:6:0",
+                          "memberName": "origin",
+                          "nodeType": "MemberAccess",
+                          "src": "300:9:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "!=",
+                        "rightExpression": {
+                          "arguments": [
+                            {
+                              "hexValue": "30",
+                              "id": 11,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "kind": "number",
+                              "lValueRequested": false,
+                              "nodeType": "Literal",
+                              "src": "321:1:0",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_rational_0_by_1",
+                                "typeString": "int_const 0"
+                              },
+                              "value": "0"
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_rational_0_by_1",
+                                "typeString": "int_const 0"
+                              }
+                            ],
+                            "id": 10,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "nodeType": "ElementaryTypeNameExpression",
+                            "src": "313:7:0",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_address_$",
+                              "typeString": "type(address)"
+                            },
+                            "typeName": {
+                              "id": 9,
+                              "name": "address",
+                              "nodeType": "ElementaryTypeName",
+                              "src": "313:7:0",
+                              "typeDescriptions": {}
+                            }
+                          },
+                          "id": 12,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "typeConversion",
+                          "lValueRequested": false,
+                          "nameLocations": [],
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "313:10:0",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "src": "300:23:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      "id": 18,
+                      "nodeType": "IfStatement",
+                      "src": "296:73:0",
+                      "trueBody": {
+                        "id": 17,
+                        "nodeType": "Block",
+                        "src": "325:44:0",
+                        "statements": [
+                          {
+                            "errorCall": {
+                              "arguments": [],
+                              "expression": {
+                                "argumentTypes": [],
+                                "id": 14,
+                                "name": "OnlySimulatedBackend",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 3,
+                                "src": "340:20:0",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_function_error_pure$__$returns$__$",
+                                  "typeString": "function () pure"
+                                }
+                              },
+                              "id": 15,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "kind": "functionCall",
+                              "lValueRequested": false,
+                              "nameLocations": [],
+                              "names": [],
+                              "nodeType": "FunctionCall",
+                              "src": "340:22:0",
+                              "tryCall": false,
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_tuple$__$",
+                                "typeString": "tuple()"
+                              }
+                            },
+                            "id": 16,
+                            "nodeType": "RevertStatement",
+                            "src": "333:29:0"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "documentation": {
+                  "id": 4,
+                  "nodeType": "StructuredDocumentation",
+                  "src": "118:127:0",
+                  "text": " @notice method that allows it to be simulated via eth_call by checking that\n the sender is the zero address."
+                },
+                "id": 20,
+                "implemented": true,
+                "kind": "function",
+                "modifiers": [],
+                "name": "preventExecution",
+                "nameLocation": "257:16:0",
+                "nodeType": "FunctionDefinition",
+                "parameters": {
+                  "id": 5,
+                  "nodeType": "ParameterList",
+                  "parameters": [],
+                  "src": "273:2:0"
+                },
+                "returnParameters": {
+                  "id": 6,
+                  "nodeType": "ParameterList",
+                  "parameters": [],
+                  "src": "290:0:0"
+                },
+                "scope": 29,
+                "src": "248:125:0",
+                "stateMutability": "view",
+                "virtual": false,
+                "visibility": "internal"
+              },
+              {
+                "body": {
+                  "id": 27,
+                  "nodeType": "Block",
+                  "src": "534:36:0",
+                  "statements": [
+                    {
+                      "expression": {
+                        "arguments": [],
+                        "expression": {
+                          "argumentTypes": [],
+                          "id": 23,
+                          "name": "preventExecution",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 20,
+                          "src": "540:16:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_internal_view$__$returns$__$",
+                            "typeString": "function () view"
+                          }
+                        },
+                        "id": 24,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "nameLocations": [],
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "540:18:0",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_tuple$__$",
+                          "typeString": "tuple()"
+                        }
+                      },
+                      "id": 25,
+                      "nodeType": "ExpressionStatement",
+                      "src": "540:18:0"
+                    },
+                    {
+                      "id": 26,
+                      "nodeType": "PlaceholderStatement",
+                      "src": "564:1:0"
+                    }
+                  ]
+                },
+                "documentation": {
+                  "id": 21,
+                  "nodeType": "StructuredDocumentation",
+                  "src": "377:129:0",
+                  "text": " @notice modifier that allows it to be simulated via eth_call by checking\n that the sender is the zero address."
+                },
+                "id": 28,
+                "name": "cannotExecute",
+                "nameLocation": "518:13:0",
+                "nodeType": "ModifierDefinition",
+                "parameters": {
+                  "id": 22,
+                  "nodeType": "ParameterList",
+                  "parameters": [],
+                  "src": "531:2:0"
+                },
+                "src": "509:61:0",
+                "virtual": false,
+                "visibility": "internal"
+              }
+            ],
+            "scope": 30,
+            "src": "57:515:0",
+            "usedErrors": [
+              3
+            ],
+            "usedEvents": []
+          }
+        ],
+        "src": "32:541:0"
+      }
+    }
+  },
+  "errors": [
+    {
+      "component": "general",
+      "errorCode": null,
+      "formattedMessage": "\n┌──────────────────────────────────────────────────────────────────────────────────────────────────┐\n│ Warning: You are checking for 'tx.origin' in your code, which might lead to unexpected behavior. │\n│ zkSync Era comes with native account abstraction support, and therefore the initiator of a       │\n│ transaction might be different from the contract calling your code. It is highly recommended NOT │\n│ to rely on tx.origin, but use msg.sender instead.                                                │\n│ Read more about Account Abstraction at https://v2-docs.zksync.io/dev/developer-guides/aa.html    │\n└──────────────────────────────────────────────────────────────────────────────────────────────────┘\n--> lib/chainlink-brownie-contracts/contracts/src/v0.8/AutomationBase.sol\n",
+      "message": "\n┌──────────────────────────────────────────────────────────────────────────────────────────────────┐\n│ Warning: You are checking for 'tx.origin' in your code, which might lead to unexpected behavior. │\n│ zkSync Era comes with native account abstraction support, and therefore the initiator of a       │\n│ transaction might be different from the contract calling your code. It is highly recommended NOT │\n│ to rely on tx.origin, but use msg.sender instead.                                                │\n│ Read more about Account Abstraction at https://v2-docs.zksync.io/dev/developer-guides/aa.html    │\n└──────────────────────────────────────────────────────────────────────────────────────────────────┘",
+      "severity": "warning",
+      "sourceLocation": {
+        "file": "0",
+        "start": 300,
+        "end": 309
+      },
+      "type": "Warning"
+    }
+  ],
+  "version": "0.8.20",
+  "long_version": "0.8.20+commit.a1b79de6.Linux.g++",
+  "zk_version": "1.4.0"
+}

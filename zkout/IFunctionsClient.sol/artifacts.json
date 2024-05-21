@@ -1,0 +1,219 @@
+{
+  "contracts": {
+    "lib/chainlink-brownie-contracts/contracts/src/v0.8/functions/dev/v1_0_0/interfaces/IFunctionsClient.sol": {
+      "IFunctionsClient": {
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "bytes32",
+                "name": "requestId",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "bytes",
+                "name": "response",
+                "type": "bytes"
+              },
+              {
+                "internalType": "bytes",
+                "name": "err",
+                "type": "bytes"
+              }
+            ],
+            "name": "handleOracleFulfillment",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "metadata": "{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"requestId\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"response\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"err\",\"type\":\"bytes\"}],\"name\":\"handleOracleFulfillment\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"handleOracleFulfillment(bytes32,bytes,bytes)\":{\"details\":\"Either response or error parameter will be set, but never both.\",\"params\":{\"err\":\"Aggregated error either from the request's source code or from the execution pipeline.\",\"requestId\":\"The requestId returned by FunctionsClient.sendRequest().\",\"response\":\"Aggregated response from the request's source code.\"}}},\"title\":\"Chainlink Functions client interface.\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"handleOracleFulfillment(bytes32,bytes,bytes)\":{\"notice\":\"Chainlink Functions response handler called by the Functions Router during fullilment from the designated transmitter node in an OCR round.\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/chainlink-brownie-contracts/contracts/src/v0.8/functions/dev/v1_0_0/interfaces/IFunctionsClient.sol\":\"IFunctionsClient\"},\"evmVersion\":\"shanghai\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"details\":{\"constantOptimizer\":false,\"cse\":false,\"deduplicate\":false,\"inliner\":false,\"jumpdestRemover\":false,\"orderLiterals\":false,\"peephole\":false,\"yul\":true,\"yulDetails\":{\"optimizerSteps\":\"dhfoDgvulfnTUtnIf[xa[r]EscLMcCTUtTOntnfDIulLculVcul [j]Tpeulxa[rul]xa[r]cLgvifCTUca[r]LSsTFOtfDnca[r]Iulc]jmul[jul] VcTOcul jmul:fDnTOc\",\"stackAllocation\":true}},\"runs\":200},\"remappings\":[\":@chainlink/contracts/=lib/chainlink-brownie-contracts/contracts/\",\":@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/\",\":BokkyPooBahsDateTimeLibrary/=lib/BokkyPooBahsDateTimeLibrary/\",\":chainlink-brownie-contracts/=lib/chainlink-brownie-contracts/contracts/src/v0.6/vendor/@arbitrum/nitro-contracts/src/\",\":ds-test/=lib/openzeppelin-contracts/lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/\"]},\"sources\":{\"lib/chainlink-brownie-contracts/contracts/src/v0.8/functions/dev/v1_0_0/interfaces/IFunctionsClient.sol\":{\"keccak256\":\"0x6117b82e7c4eec44ce557b0fc8bc1ac5f49e5d160ac6d4485452d6aafdd762ff\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://0e0828ef423afef9f6f709bb173a7e3991fe555bf9337a4941d65da525ac4ad3\",\"dweb:/ipfs/QmXz1jHRZFTqdnNxP2tffVQ9NnUE1xgtBMRWuyUrTVY4pm\"]}},\"version\":1}",
+        "evm": {
+          "legacyAssembly": null,
+          "assembly": null,
+          "bytecode": null,
+          "methodIdentifiers": {
+            "handleOracleFulfillment(bytes32,bytes,bytes)": "0ca76175"
+          }
+        },
+        "irOptimized": ""
+      }
+    }
+  },
+  "sources": {
+    "lib/chainlink-brownie-contracts/contracts/src/v0.8/functions/dev/v1_0_0/interfaces/IFunctionsClient.sol": {
+      "id": 0,
+      "ast": {
+        "absolutePath": "lib/chainlink-brownie-contracts/contracts/src/v0.8/functions/dev/v1_0_0/interfaces/IFunctionsClient.sol",
+        "exportedSymbols": {
+          "IFunctionsClient": [
+            13
+          ]
+        },
+        "id": 14,
+        "license": "MIT",
+        "nodeType": "SourceUnit",
+        "nodes": [
+          {
+            "id": 1,
+            "literals": [
+              "solidity",
+              "^",
+              "0.8",
+              ".19"
+            ],
+            "nodeType": "PragmaDirective",
+            "src": "32:24:0"
+          },
+          {
+            "abstract": false,
+            "baseContracts": [],
+            "canonicalName": "IFunctionsClient",
+            "contractDependencies": [],
+            "contractKind": "interface",
+            "documentation": {
+              "id": 2,
+              "nodeType": "StructuredDocumentation",
+              "src": "58:49:0",
+              "text": "@title Chainlink Functions client interface."
+            },
+            "fullyImplemented": false,
+            "id": 13,
+            "linearizedBaseContracts": [
+              13
+            ],
+            "name": "IFunctionsClient",
+            "nameLocation": "117:16:0",
+            "nodeType": "ContractDefinition",
+            "nodes": [
+              {
+                "documentation": {
+                  "id": 3,
+                  "nodeType": "StructuredDocumentation",
+                  "src": "138:490:0",
+                  "text": "@notice Chainlink Functions response handler called by the Functions Router\n during fullilment from the designated transmitter node in an OCR round.\n @param requestId The requestId returned by FunctionsClient.sendRequest().\n @param response Aggregated response from the request's source code.\n @param err Aggregated error either from the request's source code or from the execution pipeline.\n @dev Either response or error parameter will be set, but never both."
+                },
+                "functionSelector": "0ca76175",
+                "id": 12,
+                "implemented": false,
+                "kind": "function",
+                "modifiers": [],
+                "name": "handleOracleFulfillment",
+                "nameLocation": "640:23:0",
+                "nodeType": "FunctionDefinition",
+                "parameters": {
+                  "id": 10,
+                  "nodeType": "ParameterList",
+                  "parameters": [
+                    {
+                      "constant": false,
+                      "id": 5,
+                      "mutability": "mutable",
+                      "name": "requestId",
+                      "nameLocation": "672:9:0",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 12,
+                      "src": "664:17:0",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes32",
+                        "typeString": "bytes32"
+                      },
+                      "typeName": {
+                        "id": 4,
+                        "name": "bytes32",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "664:7:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      "visibility": "internal"
+                    },
+                    {
+                      "constant": false,
+                      "id": 7,
+                      "mutability": "mutable",
+                      "name": "response",
+                      "nameLocation": "696:8:0",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 12,
+                      "src": "683:21:0",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes_memory_ptr",
+                        "typeString": "bytes"
+                      },
+                      "typeName": {
+                        "id": 6,
+                        "name": "bytes",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "683:5:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes_storage_ptr",
+                          "typeString": "bytes"
+                        }
+                      },
+                      "visibility": "internal"
+                    },
+                    {
+                      "constant": false,
+                      "id": 9,
+                      "mutability": "mutable",
+                      "name": "err",
+                      "nameLocation": "719:3:0",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 12,
+                      "src": "706:16:0",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes_memory_ptr",
+                        "typeString": "bytes"
+                      },
+                      "typeName": {
+                        "id": 8,
+                        "name": "bytes",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "706:5:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes_storage_ptr",
+                          "typeString": "bytes"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "src": "663:60:0"
+                },
+                "returnParameters": {
+                  "id": 11,
+                  "nodeType": "ParameterList",
+                  "parameters": [],
+                  "src": "732:0:0"
+                },
+                "scope": 13,
+                "src": "631:102:0",
+                "stateMutability": "nonpayable",
+                "virtual": false,
+                "visibility": "external"
+              }
+            ],
+            "scope": 14,
+            "src": "107:628:0",
+            "usedErrors": [],
+            "usedEvents": []
+          }
+        ],
+        "src": "32:704:0"
+      }
+    }
+  },
+  "errors": [],
+  "version": "0.8.20",
+  "long_version": "0.8.20+commit.a1b79de6.Linux.g++",
+  "zk_version": "1.4.0"
+}

@@ -1,0 +1,43 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "lib/chainlink-brownie-contracts/contracts/src/v0.8/functions/dev/v1_0_0/interfaces/IFunctionsClient.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.19;\n\n/// @title Chainlink Functions client interface.\ninterface IFunctionsClient {\n  /// @notice Chainlink Functions response handler called by the Functions Router\n  /// during fullilment from the designated transmitter node in an OCR round.\n  /// @param requestId The requestId returned by FunctionsClient.sendRequest().\n  /// @param response Aggregated response from the request's source code.\n  /// @param err Aggregated error either from the request's source code or from the execution pipeline.\n  /// @dev Either response or error parameter will be set, but never both.\n  function handleOracleFulfillment(bytes32 requestId, bytes memory response, bytes memory err) external;\n}\n"
+    }
+  },
+  "settings": {
+    "remappings": [
+      "@chainlink/contracts/=lib/chainlink-brownie-contracts/contracts/",
+      "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+      "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+      "BokkyPooBahsDateTimeLibrary/=lib/BokkyPooBahsDateTimeLibrary/",
+      "chainlink-brownie-contracts/=lib/chainlink-brownie-contracts/contracts/src/v0.6/vendor/@arbitrum/nitro-contracts/src/",
+      "ds-test/=lib/openzeppelin-contracts/lib/forge-std/lib/ds-test/src/",
+      "erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/",
+      "forge-std/=lib/forge-std/src/",
+      "openzeppelin-contracts/=lib/openzeppelin-contracts/"
+    ],
+    "optimizer": {
+      "enabled": true,
+      "mode": "3",
+      "details": null,
+      "fallbackToOptimizingForSize": false,
+      "disableSystemRequestMemoization": true
+    },
+    "outputSelection": {
+      "*": {
+        "": [
+          "metadata"
+        ],
+        "*": [
+          "abi",
+          "evm.methodIdentifiers"
+        ]
+      }
+    },
+    "libraries": {},
+    "isSystem": false,
+    "forceEvmla": false,
+    "areLibrariesMissing": false
+  }
+}
