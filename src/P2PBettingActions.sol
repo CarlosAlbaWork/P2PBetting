@@ -79,12 +79,7 @@ contract P2PBettingActions is
 
     mapping(uint256 matchId => uint256[3]) s_Results;
 
-    constructor(
-        address owner,
-        address p2paddress
-    ) Ownable(owner) FunctionsClient(router) {
-        p2pBetting = P2PBetting(p2paddress);
-    }
+    constructor(address owner) Ownable(owner) FunctionsClient(router) {}
 
     /**
      *
@@ -283,6 +278,10 @@ contract P2PBettingActions is
         uint256 _intervalForAutomation
     ) external onlyOwner {
         intervalForAutomation = _intervalForAutomation;
+    }
+
+    function setBettingFrontAddress(address bettingFront) external onlyOwner {
+        p2pBetting = P2PBetting(bettingFront);
     }
 
     /////////////////////

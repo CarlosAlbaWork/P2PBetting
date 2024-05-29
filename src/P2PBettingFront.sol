@@ -425,6 +425,12 @@ contract P2PBetting is Ownable {
         emit P2PBetting__NewOracleSet(newOracle);
     }
 
+    function setBettingActionsContract(
+        address bettingAction
+    ) external onlyOwner {
+        p2pActions = P2PBettingActions(bettingAction);
+    }
+
     ///////////////////////////////////////////
     /////// GETTERS ///////////////////////////
     ///////////////////////////////////////////
