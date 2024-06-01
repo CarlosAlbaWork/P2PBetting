@@ -1,0 +1,49 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/access/ConfirmedOwner.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\nimport {ConfirmedOwnerWithProposal} from \"./ConfirmedOwnerWithProposal.sol\";\n\n/// @title The ConfirmedOwner contract\n/// @notice A contract with helpers for basic contract ownership.\ncontract ConfirmedOwner is ConfirmedOwnerWithProposal {\n  constructor(address newOwner) ConfirmedOwnerWithProposal(newOwner, address(0)) {}\n}\n"
+    },
+    "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/access/ConfirmedOwnerWithProposal.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\nimport {IOwnable} from \"../interfaces/IOwnable.sol\";\n\n/// @title The ConfirmedOwner contract\n/// @notice A contract with helpers for basic contract ownership.\ncontract ConfirmedOwnerWithProposal is IOwnable {\n  address private s_owner;\n  address private s_pendingOwner;\n\n  event OwnershipTransferRequested(address indexed from, address indexed to);\n  event OwnershipTransferred(address indexed from, address indexed to);\n\n  constructor(address newOwner, address pendingOwner) {\n    // solhint-disable-next-line gas-custom-errors\n    require(newOwner != address(0), \"Cannot set owner to zero\");\n\n    s_owner = newOwner;\n    if (pendingOwner != address(0)) {\n      _transferOwnership(pendingOwner);\n    }\n  }\n\n  /// @notice Allows an owner to begin transferring ownership to a new address.\n  function transferOwnership(address to) public override onlyOwner {\n    _transferOwnership(to);\n  }\n\n  /// @notice Allows an ownership transfer to be completed by the recipient.\n  function acceptOwnership() external override {\n    // solhint-disable-next-line gas-custom-errors\n    require(msg.sender == s_pendingOwner, \"Must be proposed owner\");\n\n    address oldOwner = s_owner;\n    s_owner = msg.sender;\n    s_pendingOwner = address(0);\n\n    emit OwnershipTransferred(oldOwner, msg.sender);\n  }\n\n  /// @notice Get the current owner\n  function owner() public view override returns (address) {\n    return s_owner;\n  }\n\n  /// @notice validate, transfer ownership, and emit relevant events\n  function _transferOwnership(address to) private {\n    // solhint-disable-next-line gas-custom-errors\n    require(to != msg.sender, \"Cannot transfer to self\");\n\n    s_pendingOwner = to;\n\n    emit OwnershipTransferRequested(s_owner, to);\n  }\n\n  /// @notice validate access\n  function _validateOwnership() internal view {\n    // solhint-disable-next-line gas-custom-errors\n    require(msg.sender == s_owner, \"Only callable by owner\");\n  }\n\n  /// @notice Reverts if called by anyone other than the contract owner.\n  modifier onlyOwner() {\n    _validateOwnership();\n    _;\n  }\n}\n"
+    },
+    "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/IOwnable.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ninterface IOwnable {\n  function owner() external returns (address);\n\n  function transferOwnership(address recipient) external;\n\n  function acceptOwnership() external;\n}\n"
+    }
+  },
+  "settings": {
+    "remappings": [
+      "@chainlink/contracts/=lib/chainlink-brownie-contracts/contracts/",
+      "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+      "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+      "BokkyPooBahsDateTimeLibrary/=lib/BokkyPooBahsDateTimeLibrary/",
+      "chainlink-brownie-contracts/=lib/chainlink-brownie-contracts/contracts/src/v0.6/vendor/@arbitrum/nitro-contracts/src/",
+      "ds-test/=lib/openzeppelin-contracts/lib/forge-std/lib/ds-test/src/",
+      "erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/",
+      "forge-std/=lib/forge-std/src/",
+      "openzeppelin-contracts/=lib/openzeppelin-contracts/"
+    ],
+    "optimizer": {
+      "enabled": true,
+      "mode": "3",
+      "details": null,
+      "fallbackToOptimizingForSize": false,
+      "disableSystemRequestMemoization": true
+    },
+    "outputSelection": {
+      "*": {
+        "": [
+          "metadata"
+        ],
+        "*": [
+          "abi",
+          "evm.methodIdentifiers"
+        ]
+      }
+    },
+    "libraries": {},
+    "isSystem": false,
+    "forceEvmla": false,
+    "areLibrariesMissing": false
+  }
+}

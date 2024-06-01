@@ -881,4 +881,22 @@ contract P2PBettingTest is Test {
     function testGetTimestamp() public {
         console.log(BokkyPooBahsDateTimeLibrary.timestampFromDate(2024, 5, 22));
     }
+
+    function testDecoder() public {
+        bytes
+            memory bytesData = hex"00000000000000000000000000000000000000000000000000000000000007D00000000000000000000000000000000000000000000000000000000000000064000000000000000000000000000000000000000000000000000000000000006E";
+
+        //string memory jsonString = string(bytesData);
+        //console.log(jsonString);
+        uint256 gameId;
+        uint256 homeTeamScore;
+        uint256 awayTeamScore;
+        (gameId, homeTeamScore, awayTeamScore) = abi.decode(
+            bytesData,
+            (uint256, uint256, uint256)
+        );
+        console.log(gameId);
+        console.log(homeTeamScore);
+        console.log(awayTeamScore);
+    }
 }
