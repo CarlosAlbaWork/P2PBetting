@@ -1,66 +1,25 @@
-## Foundry
+# P2P Betting Smart Contracts
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+**P2P Betting is a platform that allows users to create and join sportsbets without the participation of a betting business as an intermediary**
 
-Foundry consists of:
+This repo contains the work I made during the 2024 Chainlink BlockMagic Hackathon (https://chain.link/hackathon), the Smart Contracts that act as a backend for the app. The full project with the frontend developed by my teammates is in this repository : https://github.com/martinllobell/dapp
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## P2PBettingFront.sol
 
-## Documentation
+Contains the different functions that the front-end might need to work correctly. Getters, setters, creating and joining bets, getting the rewards...
 
-https://book.getfoundry.sh/
+## P2PBettingActions.sol
 
-## Usage
+Contains the computationally demaning functions and the usage of chainlink functions.
 
-### Build
+## P2PBetting.sol
 
-```shell
-$ forge build
-```
+Deprecated. Only there to show the progress made during the month of the hackathon
 
-### Test
+### Disclaimer
 
-```shell
-$ forge test
-```
+No contracts here have been audited so they should ONLY be deployed to testnets.
 
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+## Next Steps : 
+- NatSpec for every function and variable
+- More testing
